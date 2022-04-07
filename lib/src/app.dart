@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:meals_app/src/screens/meal_detail_screen.dart';
 import 'screens/category_meals_screen.dart';
 import 'package:meals_app/src/widgets/platform_widgets/platform_app.dart';
 import './screens/categories_screen.dart';
@@ -42,9 +43,10 @@ class App extends StatelessWidget {
       home: const Scaffold(
         body: CategoriesScreen(),
       ),
-      // initialRoute: '/',
+      initialRoute: '/',
       routes: {
-        '/categories-meals': (ctx) => const CategoryMealsScreen(),
+        CategoryMealsScreen.routeName: (ctx) => const CategoryMealsScreen(),
+        MealDetailScreen.routeName: (ctx) => const MealDetailScreen()
       },
     );
   }
@@ -56,7 +58,8 @@ class App extends StatelessWidget {
       home: const CategoriesScreen(),
       initialRoute: '/',
       routes: {
-        '/categories-meals': (ctx) => CategoryMealsScreen(),
+        CategoryMealsScreen.routeName: (ctx) => const CategoryMealsScreen(),
+        MealDetailScreen.routeName: (ctx) => const MealDetailScreen()
       },
     );
   }
@@ -67,7 +70,8 @@ class App extends StatelessWidget {
       theme: MaterialBasedCupertinoThemeData(materialTheme: theme()),
       initialRoute: '/',
       routes: {
-        '/categories-meals': (ctx) => const CategoryMealsScreen(),
+        CategoryMealsScreen.routeName: (ctx) => const CategoryMealsScreen(),
+        MealDetailScreen.routeName: (ctx) => const MealDetailScreen()
       },
     );
   }
