@@ -31,12 +31,12 @@ class MealDetailScreen extends StatelessWidget {
               Text(meal.title),
               backgroundColor: Theme.of(context).primaryColor,
             ),
-      body: Center(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             OverlayImage(
               meal: meal,
-              height: 200,
+              height: 250,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -49,50 +49,73 @@ class MealDetailScreen extends StatelessWidget {
               ],
             ),
             _buildHeading('Ingredients'),
-            _buildList(boxDecoration, meal.ingredients),
+            _buildListContainer(
+                boxDecoration: boxDecoration,
+                child: ListView.builder(
+                  itemBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.circle,
+                          size: 6,
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 4.0),
+                            child: Text(
+                              meal.ingredients[index],
+                              softWrap: true,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  itemCount: meal.ingredients.length,
+                )),
             _buildHeading('Directions'),
-            _buildList(boxDecoration, meal.steps),
+            _buildListContainer(
+                boxDecoration: boxDecoration,
+                child: ListView.builder(
+                  itemBuilder: (ctx, index) => Column(
+                    children: [
+                      ListTile(
+                        leading: CircleAvatar(
+                          child: Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: FittedBox(
+                              child: Text('${index + 1}'),
+                            ),
+                          ),
+                        ),
+                        title: Text(meal.steps[index]),
+                      ),
+                      const Divider()
+                    ],
+                  ),
+                  itemCount: meal.steps.length,
+                )),
           ],
         ),
       ),
     );
   }
 
-  Container _buildList(BoxDecoration boxDecoration, List<String> list) {
+  Container _buildListContainer(
+      {required BoxDecoration boxDecoration, required Widget child}) {
     return Container(
-      height: 125,
+      height: 150,
       margin: const EdgeInsets.all(5),
       decoration: boxDecoration,
       padding: const EdgeInsets.all(5),
-      child: ListView.builder(
-        itemBuilder: (context, index) => Padding(
-          padding: const EdgeInsets.only(bottom: 4.0),
-          child: Row(
-            children: [
-              const Icon(
-                Icons.circle,
-                size: 6,
-              ),
-              Flexible(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 4.0),
-                  child: Text(
-                    list[index],
-                    softWrap: true,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        itemCount: list.length,
-      ),
+      child: child,
     );
   }
 
   Padding _buildHeading(String label, {Color color = Colors.black}) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(top: 8.0, bottom: 2.0),
       child: Text(
         label,
         style: TextStyle(fontWeight: FontWeight.bold, color: color),
